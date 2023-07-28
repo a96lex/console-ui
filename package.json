@@ -7,14 +7,17 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "deploy": "export AWS_PROFILE=hotreach  && aws s3 cp dist/ s3://hotreach-console --recursive && aws cloudfront create-invalidation --distribution-id 'E3RETMLK54BR9A' --paths '/*'"
   },
   "devDependencies": {
+    "@smui/textfield": "7.0.0-beta.14",
     "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "@tsconfig/svelte": "^5.0.0",
     "sass": "^1.64.1",
     "svelte": "^4.0.5",
     "svelte-check": "^3.4.6",
+    "svelte-formly": "^2.0.1",
     "svelte-preprocess": "^5.0.4",
     "tslib": "^2.6.0",
     "typescript": "^5.0.2",
