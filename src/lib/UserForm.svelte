@@ -62,7 +62,7 @@
     },
   ];
 
-  const onSubmit = ({ target }: Event) => {
+  const onSubmit = async ({ target }: Event) => {
     const data = new FormData(target as HTMLFormElement);
 
     for (const [key, value] of data.entries()) {
@@ -72,6 +72,24 @@
       }
     }
     console.log("values:", data);
+
+    const json_data = JSON.stringify(Object.fromEntries(data.entries()));
+
+    console.log(json_data);
+
+    try {
+      const res = await fetch(
+        "https://96dez9u6r8.execute-api.eu-west-1.amazonaws.com/staging/preview",
+        {
+          method: "POST",
+          body: json_data,
+        }
+      );
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 </script>
 
