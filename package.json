@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "deploy": "export AWS_PROFILE=hotreach  && aws s3 cp dist/ s3://hotreach-console --recursive && aws cloudfront create-invalidation --distribution-id 'E3RETMLK54BR9A' --paths '/*'"
+    "deploy": "export AWS_PROFILE=hotreach  && pnpm run build && aws s3 cp dist/ s3://hotreach-console --recursive && aws cloudfront create-invalidation --distribution-id 'E3RETMLK54BR9A' --paths '/*'"
   },
   "devDependencies": {
     "@smui/textfield": "7.0.0-beta.14",
