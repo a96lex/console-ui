@@ -126,7 +126,6 @@
     width: 100%;
 
     max-width: 50vw;
-    background-color: #eee;
   }
 
   .textareaWrapper {
