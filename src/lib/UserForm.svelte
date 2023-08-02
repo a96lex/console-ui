@@ -9,7 +9,7 @@
       required: true,
       label: "Sender's description",
       description: "Here is some info",
-      maxLen: 200,
+      maxLen: 600,
     },
     {
       type: "textarea",
@@ -18,7 +18,7 @@
       required: true,
       label: "Sender's company description",
       description: "Here is some info",
-      maxLen: 200,
+      maxLen: 2000,
     },
     {
       type: "textarea",
@@ -77,56 +77,84 @@
   };
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
-  {#each fields as field}
-    <div style="position: relative;">
-      <label for={field.name}>{field.label}</label>
-      <textarea
-        name={field.name}
-        id={field.name}
-        bind:value={field.value}
-        class="formArea"
-        required={field.required}
-      />
+<section class="form">
+  <form on:submit|preventDefault={onSubmit}>
+    {#each fields as field}
+      <div class="textareaWrapper">
+        <label for={field.name}>{field.label}</label>
+        <textarea
+          name={field.name}
+          id={field.name}
+          bind:value={field.value}
+          required={field.required}
+        />
 
-      {#if field.maxLen}
-        <span
-          class="charCounter"
-          class:error={field.value.length > field.maxLen}
-        >
-          {field.value.length}/{field.maxLen}
-        </span>
+        {#if field.maxLen}
+          <span
+            class="charCounter"
+            class:error={field.value.length > field.maxLen}
+          >
+            {field.value.length}/{field.maxLen}
+          </span>
+        {/if}
+      </div>
+    {/each}
+    <button type="submit">
+      {#if $previewLoading}
+        Loading...
+      {:else}
+        Preview
       {/if}
-    </div>
-  {/each}
-  <button type="submit">Preview</button>
-</form>
+    </button>
+  </form>
+</section>
 
 <style lang="scss">
-  form {
+  .form {
+    text-align: center;
+    margin-bottom: 20px;
     width: 100%;
-    height: 100%;
-    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    justify-content: center;
+    width: 100%;
+
+    max-width: 50vw;
+    background-color: #eee;
   }
 
-  .formArea {
+  .textareaWrapper {
+    width: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
-    padding: 1rem;
+  }
+
+  textarea {
+    font-family: inherit;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    resize: none;
+    width: 100%;
     border: none;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-    width: 100%;
-    resize: none;
-    margin-bottom: 1rem;
   }
 
   .charCounter {
-    bottom: -1.1rem;
-    right: -2rem;
-    font-size: 0.8rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 5px;
   }
 
   .error {
@@ -134,11 +162,14 @@
   }
 
   button {
-    margin-top: 1rem;
-    padding: 1rem;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: var(--background);
+    font-weight: bold;
+    width: 100%;
+    padding: 1em 0;
     border: none;
+    cursor: pointer;
     border-radius: 0.5rem;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-    width: 90%;
   }
 </style>
