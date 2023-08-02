@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { previewData, previewLoading } from "../stores/UserData";
+
   let fields: IField[] = [
     {
       type: "textarea",
@@ -57,6 +59,7 @@
     console.log(json_data);
 
     try {
+      $previewLoading = true;
       const res = await fetch(
         "https://96dez9u6r8.execute-api.eu-west-1.amazonaws.com/staging/preview",
         {
@@ -65,9 +68,11 @@
         }
       );
 
-      console.log(res);
+      $previewData = (await res.json()) as IPreviewData[];
     } catch (error) {
       console.log(error);
+    } finally {
+      $previewLoading = false;
     }
   };
 </script>
@@ -99,13 +104,8 @@
 
 <style lang="scss">
   form {
-    width: 100vw;
-    max-width: 50rem;
-    // center
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
     background-color: var(--background);
   }
 
@@ -120,12 +120,10 @@
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     width: 100%;
     resize: none;
-    position: relative;
     margin-bottom: 1rem;
   }
 
   .charCounter {
-    position: absolute;
     bottom: -1.1rem;
     right: -2rem;
     font-size: 0.8rem;
