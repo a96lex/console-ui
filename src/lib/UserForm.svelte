@@ -48,7 +48,7 @@
     return result;
   }, {});
 
-  $: hrefEmail = `mailto:console@hotreach.com?subject=Console%20request&body=${JSON.stringify(
+  $: hrefEmail = `mailto:console@hotreach.io?subject=Console%20request&body=${JSON.stringify(
     jsonData
   )}`;
 
