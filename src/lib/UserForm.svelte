@@ -43,28 +43,23 @@
     },
   ];
 
-  const onSubmit = async ({ target }: Event) => {
-    const data = new FormData(target as HTMLFormElement);
+  $: jsonData = fields.reduce((result, element) => {
+    result[element.name] = element.value;
+    return result;
+  }, {});
 
-    for (const [key, value] of data.entries()) {
-      if (value.length > fields.find((field) => field.name === key)?.maxLen) {
-        console.log("error");
-        return;
-      }
-    }
-    console.log("values:", data);
+  $: hrefEmail = `mailto:console@hotreach.com?subject=Console%20request&body=${JSON.stringify(
+    jsonData
+  )}`;
 
-    const json_data = JSON.stringify(Object.fromEntries(data.entries()));
-
-    console.log(json_data);
-
+  const onSubmit = async () => {
     try {
       $previewLoading = true;
       const res = await fetch(
         "https://96dez9u6r8.execute-api.eu-west-1.amazonaws.com/staging/preview",
         {
           method: "POST",
-          body: json_data,
+          body: JSON.stringify(jsonData),
         }
       );
 
@@ -106,6 +101,9 @@
         Preview
       {/if}
     </button>
+
+    <!-- send to email -->
+    <a href={hrefEmail} target="_blank"> Send to console email </a>
   </form>
 </section>
 
